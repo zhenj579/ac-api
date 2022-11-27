@@ -22,18 +22,25 @@ namespace AnimalCrossingApi.Controllers
             return await _context.Songs.ToListAsync();
         }
 
-        // GET: api/Songs/5
+        // GET: api/Songs/Agent K.K.
         [HttpGet("{name}")]
         public async Task<ActionResult<Songs>> GetSongs(string name)
         {
             var songs = await _context.Songs.FindAsync(name);
+            var response = new Response();
 
             if (songs == null)
             {
-                return NotFound();
+                response.statusCode = 404;
+                response.statusDescription = "Invalid song name or song does not exist";
             }
-
-            return songs;
+            else
+            {
+                response.statusCode = 200;
+                response.statusDescription = "OK";
+                response.songsResult.Add(songs);
+            }
+            return response;
         }
 
         // PUT: api/Songs/5

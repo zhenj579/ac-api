@@ -17,29 +17,35 @@ namespace AnimalCrossingApi.Controllers
 
         // GET: api/FavoriteSongs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FavoriteSongEntries>>> GetFavoriteSongs()
+        public async Task<ActionResult<IEnumerable<FavoriteSongs>>> GetFavoriteSongs()
         {
-            return await _context.FavoriteSongEntries.ToListAsync();
+            return await _context.FavoriteSongs.ToListAsync();
         }
 
         // GET: api/FavoriteSongs/5
         [HttpGet("{VillagerName}")]
-        public async Task<ActionResult<FavoriteSongEntries>> GetFavoriteSongs(string VillagerName)
+        public async Task<ActionResult<FavoriteSongs>> GetFavoriteSongs(string VillagerName)
         {
-            var favoriteSongs = await _context.FavoriteSongEntries.FindAsync(VillagerName);
-
-            if (favoriteSongs == null)
+            var favoriteSong = await _context.FavoriteSongs.FindAsync(VillagerName);
+            var response = new Response();
+            if (favoriteSong == null)
             {
-                return NotFound();
+                response.statusCode = 404;
+                response.statusDescription = "Villager has no favorite song or invalid villager";
             }
-
-            return favoriteSongs;
+            else
+            {
+                response.statusCode = 200;
+                response.statusDescription = "OK";
+                response.favoriteSongsResult.Add(favoriteSong);
+            }
+            return response;
         }
 
         // PUT: api/FavoriteSongs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{VillagerName}")]
-        public async Task<IActionResult> PutFavoriteSongs(string VillagerName, FavoriteSongEntries favoriteSongs)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutFavoriteSongs(string VillagerName, FavoriteSongs favoriteSongs)
         {
             if (VillagerName != favoriteSongs.VillagerName)
             {
@@ -70,9 +76,9 @@ namespace AnimalCrossingApi.Controllers
         // POST: api/FavoriteSongs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FavoriteSongEntries>> PostFavoriteSongs(FavoriteSongEntries favoriteSongs)
+        public async Task<ActionResult<FavoriteSongs>> PostFavoriteSongs(FavoriteSongs favoriteSongs)
         {
-            _context.FavoriteSongEntries.Add(favoriteSongs);
+            _context.FavoriteSongs.Add(favoriteSongs);
             try
             {
                 await _context.SaveChangesAsync();
@@ -96,13 +102,13 @@ namespace AnimalCrossingApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFavoriteSongs(string VillagerName)
         {
-            var favoriteSongs = await _context.FavoriteSongEntries.FindAsync(VillagerName);
+            var favoriteSongs = await _context.FavoriteSongs.FindAsync(VillagerName);
             if (favoriteSongs == null)
             {
                 return NotFound();
             }
 
-            _context.FavoriteSongEntries.Remove(favoriteSongs);
+            _context.FavoriteSongs.Remove(favoriteSongs);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -110,7 +116,7 @@ namespace AnimalCrossingApi.Controllers
 
         private bool FavoriteSongsExists(string VillagerName)
         {
-            return _context.FavoriteSongEntries.Any(e => e.VillagerName == VillagerName);
+            return _context.FavoriteSongs.Any(e => e.VillagerName == VillagerName);
         }
     }
 }

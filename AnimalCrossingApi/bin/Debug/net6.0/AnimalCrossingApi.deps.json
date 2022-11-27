@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "AnimalCrossingApi/1.0.0": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.InMemory": "6.0.2",
+          "Microsoft.EntityFrameworkCore.InMemory": "6.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.10",
           "Microsoft.EntityFrameworkCore.Tools": "6.0.10",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.10",
@@ -915,14 +915,14 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.InMemory/6.0.2": {
+      "Microsoft.EntityFrameworkCore.InMemory/6.0.10": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.10"
         },
         "runtime": {
           "lib/net6.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
-            "assemblyVersion": "6.0.2.0",
-            "fileVersion": "6.0.222.6404"
+            "assemblyVersion": "6.0.10.0",
+            "fileVersion": "6.0.1022.47607"
           }
         }
       },
@@ -2537,12 +2537,12 @@
       "path": "microsoft.entityframeworkcore.design/6.0.10",
       "hashPath": "microsoft.entityframeworkcore.design.6.0.10.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.InMemory/6.0.2": {
+    "Microsoft.EntityFrameworkCore.InMemory/6.0.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Tp0ZXuLFlgyRDRVPnyjjgCnDR/TA+UJDeVM1XejN5G3sLfsDdlPW8cC+Eoi7sHYOWd1dRXGRFUj0lurnz5CObA==",
-      "path": "microsoft.entityframeworkcore.inmemory/6.0.2",
-      "hashPath": "microsoft.entityframeworkcore.inmemory.6.0.2.nupkg.sha512"
+      "sha512": "sha512-S9skLwgN8UxG3EJTPZfGS0X45fnbUXKy+0iGeGopuUzSSboBwUgTACiKCT8MYBPmLasIkrZlQo/5UwRfovEUeg==",
+      "path": "microsoft.entityframeworkcore.inmemory/6.0.10",
+      "hashPath": "microsoft.entityframeworkcore.inmemory.6.0.10.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Relational/6.0.10": {
       "type": "package",

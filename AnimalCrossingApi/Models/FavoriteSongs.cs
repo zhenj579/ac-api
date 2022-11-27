@@ -2,7 +2,7 @@
 
 namespace AnimalCrossingApi.Models
 {
-    public class FavoriteSongEntries
+    public class FavoriteSongs
     {
         [Key]
         public string VillagerName { get; set; }

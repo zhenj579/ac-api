@@ -24,16 +24,24 @@ namespace AnimalCrossingApi.Controllers
 
         // GET: api/Villagers/name
         [HttpGet("{name}")]
-        public async Task<ActionResult<Villager>> GetVillager(string name)
+        public async Task<ActionResult<Response>> GetVillager(string name)
         {
             var villager = await _context.Villagers.FindAsync(name);
+            var response = new Response();
 
             if (villager == null)
             {
-                return NotFound();
+                response.statusCode = 404;
+                response.statusDescription = "Invalid villager name or villager does not exist";
+            }
+            else
+            {
+                response.statusCode = 200;
+                response.statusDescription = "OK";
+                response.villagersResult.Add(villager);
             }
 
-            return villager;
+            return response;
         }
 
         // PUT: api/Villagers/Knox

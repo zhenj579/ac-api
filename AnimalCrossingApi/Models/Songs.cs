@@ -14,6 +14,5 @@ namespace AnimalCrossingApi.Models
         public string Color1 { get; set; }
         public string Color2 { get; set; }
         public string Catalog { get; set; }
-
     }
 }
