@@ -21,6 +21,8 @@ namespace AnimalCrossingApi.Models
 
         public DbSet<Villager> Villagers { get; set; } = null!;
 
-        public DbSet<AnimalCrossingApi.Models.Songs> Songs { get; set; }
+        public DbSet<Songs> Songs { get; set; }
+
+        public DbSet<FavoriteSongEntries> FavoriteSongEntries { get; set; }
     }
 }
