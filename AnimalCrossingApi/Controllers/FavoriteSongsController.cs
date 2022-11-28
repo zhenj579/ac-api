@@ -35,7 +35,7 @@ namespace AnimalCrossingApi.Controllers
             if (favoriteSong == null)
             {
                 response.statusCode = 404;
-                response.statusDescription = "Villager has no favorite song or invalid villager";
+                response.statusDescription = "VILLAGER NOT FOUND";
             }
             else
             {
