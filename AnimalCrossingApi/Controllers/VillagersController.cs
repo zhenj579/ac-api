@@ -46,12 +46,18 @@ namespace AnimalCrossingApi.Controllers
 
         // PUT: api/Villagers/Knox
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutVillager(string VillagerName, Villager villager)
+        [HttpPut("{VillagerName}")]
+        public async Task<Response> PutVillager(string VillagerName, Villager villager)
         {
+            var response = new Response();
+
+            response.statusCode = 200;
+            response.statusDescription = "OK, VILLAGER UPDATED";
+
             if (VillagerName != villager.VillagerName)
             {
-                return BadRequest();
+                response.statusCode = 400;
+                response.statusDescription = "BAD REQUEST";
             }
 
             _context.Entry(villager).State = EntityState.Modified;
@@ -64,7 +70,8 @@ namespace AnimalCrossingApi.Controllers
             {
                 if (!VillagerExists(VillagerName))
                 {
-                    return NotFound();
+                    response.statusCode = 404;
+                    response.statusDescription = "VILLAGER NOT FOUND";
                 }
                 else
                 {
@@ -72,48 +79,63 @@ namespace AnimalCrossingApi.Controllers
                 }
             }
 
-            return NoContent();
+            return response;
         }
 
         // POST: api/Villagers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Villager>> PostVillager(Villager villager)
+        public async Task<ActionResult<Response>> PostVillager(Villager villager)
         {
-            _context.Villagers.Add(villager);
+            var response = new Response();
+
             try
             {
+                _context.Villagers.Add(villager);
                 await _context.SaveChangesAsync();
+                response.statusCode = 201;
+                response.statusDescription = "OK, VILLAGER CREATED";
+
             }
             catch (DbUpdateException)
             {
                 if (VillagerExists(villager.VillagerName))
                 {
-                    return Conflict();
+                    response.statusCode = 409;
+                    response.statusDescription = "VILLAGER ALREADY EXISTS";
                 }
                 else
                 {
+                    response.statusCode = 404;
+                    response.statusDescription = "VILLAGER NOT FOUND";
                     throw;
                 }
             }
 
-            return CreatedAtAction("GetVillager", new { VillagerName = villager.VillagerName }, villager);
+            return response;
         }
 
         // DELETE: api/Villagers/Knox
         [HttpDelete("{VillagerName}")]
-        public async Task<IActionResult> DeleteVillager(string VillagerName)
+        public async Task<Response> DeleteVillager(string VillagerName)
         {
             var villager = await _context.Villagers.FindAsync(VillagerName);
+            var response = new Response();
+
+            response.statusCode = 200;
+            response.statusDescription = "OK, VILLAGER DELETED";
+
             if (villager == null)
             {
-                return NotFound();
+                response.statusCode = 404;
+                response.statusDescription = "VILLAGER NOT FOUND";
+                return response;
             }
 
             _context.Villagers.Remove(villager);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return response;
         }
 
         private bool VillagerExists(string VillagerName)

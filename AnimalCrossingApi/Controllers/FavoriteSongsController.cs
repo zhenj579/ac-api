@@ -24,7 +24,7 @@ namespace AnimalCrossingApi.Controllers
 
         // GET: api/FavoriteSongs/5
         [HttpGet("{VillagerName}")]
-        public async Task<ActionResult<FavoriteSongs>> GetFavoriteSongs(string VillagerName)
+        public async Task<ActionResult<Response>> GetFavoriteSongs(string VillagerName)
         {
             var favoriteSong = await _context.FavoriteSongs.FindAsync(VillagerName);
             var response = new Response();
