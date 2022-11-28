@@ -118,7 +118,7 @@ namespace AnimalCrossingApi.Controllers
         }
 
         // DELETE: api/Songs/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{song}")]
         public async Task<Response> DeleteSongs(string song)
         {
             var songs = await _context.Songs.FindAsync(song);
