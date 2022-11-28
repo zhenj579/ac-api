@@ -70,7 +70,6 @@ namespace AnimalCrossingApi.Controllers
                 {
                     response.statusCode = 404;
                     response.statusDescription = "VILLAGER NOT FOUND";
-                    return NotFound();
                 }
                 else
                 {
@@ -84,42 +83,55 @@ namespace AnimalCrossingApi.Controllers
         // POST: api/FavoriteSongs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FavoriteSongs>> PostFavoriteSongs(FavoriteSongs favoriteSongs)
+        public async Task<ActionResult<Response>> PostFavoriteSongs(FavoriteSongs favoriteSongs)
         {
-            _context.FavoriteSongs.Add(favoriteSongs);
+            var response = new Response();
+
             try
             {
+                _context.FavoriteSongs.Add(favoriteSongs);
                 await _context.SaveChangesAsync();
+                response.statusCode = 201;
+                response.statusDescription = "OK, VILLAGER'S FAVORITE SONG CREATED";
             }
             catch (DbUpdateException)
             {
                 if (FavoriteSongsExists(favoriteSongs.VillagerName))
                 {
-                    return Conflict();
+                    response.statusCode = 409;
+                    response.statusDescription = "VILLAGER'S FAVORITE SONG ALREADY EXISTS";
                 }
                 else
                 {
+                    response.statusCode = 404;
+                    response.statusDescription = "VILLAGER'S FAVORITE SONG NOT FOUND";
                     throw;
                 }
             }
 
-            return CreatedAtAction("GetFavoriteSongs", new { VillagerName = favoriteSongs.VillagerName }, favoriteSongs);
+            return response;
         }
 
         // DELETE: api/FavoriteSongs/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFavoriteSongs(string VillagerName)
+        [HttpDelete("{VillagerName}")]
+        public async Task<Response> DeleteFavoriteSongs(string VillagerName)
         {
             var favoriteSongs = await _context.FavoriteSongs.FindAsync(VillagerName);
+            var response = new Response();
+
+            response.statusCode = 200;
+            response.statusDescription = "OK, VILLAGER'S FAVORITE SONG DELETED";
+
             if (favoriteSongs == null)
             {
-                return NotFound();
+                response.statusCode = 404;
+                response.statusDescription = "VILLAGER'S FAVORITE SONG NOT FOUND";
             }
 
             _context.FavoriteSongs.Remove(favoriteSongs);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return response;
         }
 
         private bool FavoriteSongsExists(string VillagerName)
