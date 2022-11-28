@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using AnimalCrossingApi.Models;
 
 namespace AnimalCrossingApi.Models
 {

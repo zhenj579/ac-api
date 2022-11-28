@@ -44,12 +44,18 @@ namespace AnimalCrossingApi.Controllers
 
         // PUT: api/FavoriteSongs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFavoriteSongs(string VillagerName, FavoriteSongs favoriteSongs)
+        [HttpPut("{VillagerName}")]
+        public async Task<Response> PutFavoriteSongs(string VillagerName, FavoriteSongs favoriteSongs)
         {
+            var response = new Response();
+
+            response.statusCode = 200;
+            response.statusDescription = "FAVORITE SONG UPDATED";
+
             if (VillagerName != favoriteSongs.VillagerName)
             {
-                return BadRequest();
+                response.statusCode = 400;
+                response.statusDescription = "BAD REQUEST";
             }
 
             _context.Entry(favoriteSongs).State = EntityState.Modified;
@@ -62,6 +68,8 @@ namespace AnimalCrossingApi.Controllers
             {
                 if (!FavoriteSongsExists(VillagerName))
                 {
+                    response.statusCode = 404;
+                    response.statusDescription = "VILLAGER NOT FOUND";
                     return NotFound();
                 }
                 else
@@ -70,7 +78,7 @@ namespace AnimalCrossingApi.Controllers
                 }
             }
 
-            return NoContent();
+            return response;
         }
 
         // POST: api/FavoriteSongs

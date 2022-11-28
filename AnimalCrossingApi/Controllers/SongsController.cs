@@ -46,11 +46,17 @@ namespace AnimalCrossingApi.Controllers
         // PUT: api/Songs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{name}")]
-        public async Task<IActionResult> PutSongs(string name, Songs songs)
+        public async Task<Response> PutSongs(string name, Songs songs)
         {
+            var response = new Response();
+
+            response.statusCode = 200;
+            response.statusDescription = "OK, SONG UPDATED";
+
             if (name != songs.Song)
             {
-                return BadRequest();
+                response.statusCode = 400;
+                response.statusDescription = "BAD REQUEST";
             }
 
             _context.Entry(songs).State = EntityState.Modified;
@@ -63,7 +69,8 @@ namespace AnimalCrossingApi.Controllers
             {
                 if (!SongsExists(name))
                 {
-                    return NotFound();
+                    response.statusCode = 404;
+                    response.statusDescription = "SONG NOT FOUND";
                 }
                 else
                 {
@@ -71,48 +78,62 @@ namespace AnimalCrossingApi.Controllers
                 }
             }
 
-            return NoContent();
+            return response;
         }
 
         // POST: api/Songs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Songs>> PostSongs(Songs songs)
+        public async Task<ActionResult<Response>> PostSongs(Songs songs)
         {
-            _context.Songs.Add(songs);
+            var response = new Response();
+
             try
             {
+                _context.Songs.Add(songs);
                 await _context.SaveChangesAsync();
+                response.statusCode = 201;
+                response.statusDescription = "OK, SONG CREATED";
             }
             catch (DbUpdateException)
             {
                 if (SongsExists(songs.Song))
                 {
-                    return Conflict();
+                    response.statusCode = 409;
+                    response.statusDescription = "SONG ALREADY EXISTS";
                 }
                 else
                 {
+                    response.statusCode = 404;
+                    response.statusDescription = "SONG NOT FOUND";
                     throw;
                 }
             }
 
-            return CreatedAtAction("GetSongs", new { song = songs.Song }, songs);
+            return response;
         }
 
         // DELETE: api/Songs/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSongs(string song)
+        public async Task<Response> DeleteSongs(string song)
         {
             var songs = await _context.Songs.FindAsync(song);
+            var response = new Response();
+
+            response.statusCode = 200;
+            response.statusDescription = "OK SONG DELETED";
+
             if (songs == null)
             {
-                return NotFound();
+                response.statusCode = 404;
+                response.statusDescription = "SONG NOT FOUND";
+                return response;
             }
 
             _context.Songs.Remove(songs);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return response;
         }
 
         private bool SongsExists(string song)
