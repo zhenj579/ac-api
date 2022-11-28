@@ -1,4 +1,5 @@
 # ac-api
+The CSV files that are necessary to populate the database are located in the root directory of the repository (music.csv and villagers.csv).
 
 # Endpoints
 <ins><strong>GET</strong><br></ins>
