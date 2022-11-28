@@ -24,7 +24,7 @@ namespace AnimalCrossingApi.Controllers
 
         // GET: api/Songs/Agent K.K.
         [HttpGet("{name}")]
-        public async Task<ActionResult<Songs>> GetSongs(string name)
+        public async Task<ActionResult<Response>> GetSongs(string name)
         {
             var songs = await _context.Songs.FindAsync(name);
             var response = new Response();
