@@ -17,9 +17,13 @@ namespace AnimalCrossingApi.Controllers
 
         // GET: api/Villagers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Villager>>> GetVillagers()
+        public async Task<ActionResult<Response>> GetVillagers()
         {
-            return await _context.Villagers.ToListAsync();
+            var response = new Response();
+            response.statusCode = 200;
+            response.statusDescription = "OK";
+            response.villagersResult = await _context.Villagers.ToListAsync();
+            return response;
         }
 
         // GET: api/Villagers/name

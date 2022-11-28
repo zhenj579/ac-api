@@ -17,9 +17,13 @@ namespace AnimalCrossingApi.Controllers
 
         // GET: api/Songs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Songs>>> GetSongs()
+        public async Task<ActionResult<Response>> GetSongs()
         {
-            return await _context.Songs.ToListAsync();
+            var response = new Response();
+            response.statusCode = 200;
+            response.statusDescription = "OK";
+            response.songsResult = await _context.Songs.ToListAsync();
+            return response;
         }
 
         // GET: api/Songs/Agent K.K.

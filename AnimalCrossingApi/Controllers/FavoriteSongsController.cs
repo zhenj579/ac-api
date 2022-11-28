@@ -17,9 +17,13 @@ namespace AnimalCrossingApi.Controllers
 
         // GET: api/FavoriteSongs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FavoriteSongs>>> GetFavoriteSongs()
+        public async Task<ActionResult<Response>> GetFavoriteSongs()
         {
-            return await _context.FavoriteSongs.ToListAsync();
+            var response = new Response();
+            response.statusCode = 200;
+            response.statusDescription = "OK";
+            response.favoriteSongsResult = await _context.FavoriteSongs.ToListAsync();
+            return response;
         }
 
         // GET: api/FavoriteSongs/5
